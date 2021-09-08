@@ -49,8 +49,18 @@ public class Tests {
             config.addProfile(new Profile());
         });
         try {
+            validatorManager.validate(new User("e","orion"));
+        } 
+        catch(PasswordMinimumLengthException e) {} 
+        catch(PasswordMaximumLengthException e){}
+        try {
             validatorManager.validate(new User("Fefeto","orion"));
-        } catch(PasswordMinimumLengthException e) {} 
+        } 
+        catch(PasswordMinimumLengthException e) {} 
+        try {
+            validatorManager.validate(new User("Fefeto","orissssssssssssssssssssssssssssssssssssssssssssssssssssssssssssson"));
+        } 
+        catch(PasswordMaximumLengthException e){}
     }
     
     @Test                                             
