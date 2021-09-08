@@ -10,11 +10,13 @@ import validatorManager.interfaces.Validator;
 public class ValidatorExpressionConfiguration<T> implements ValidatorConfiguration {
 
     ArrayList<ValidatorConfiguration> valueConfigs;
+    ArrayList<Function<T,Boolean>> noValidationExpressions;
     Class<T> type;
 
     ValidatorExpressionConfiguration(Class<T> type) {
         this.type = type;
         valueConfigs = new ArrayList<ValidatorConfiguration>();
+        noValidationExpressions = new ArrayList<Function<T,Boolean>>();
     }
 
     /**
@@ -29,10 +31,19 @@ public class ValidatorExpressionConfiguration<T> implements ValidatorConfigurati
         return this;
     }
 
+    /**
+     * Add skip validation for your object
+     * @param noValidationExpression expression who return boolean with the object as parameter
+    */
+    public ValidatorExpressionConfiguration<T> forNoValidation(Function<T,Boolean> noValidationExpression) {
+        noValidationExpressions.add(noValidationExpression);
+        return this;
+    }
+
     public Validator createValidator() {
         ArrayList<Validator> validators = new ArrayList<Validator>();
         for(ValidatorConfiguration config : valueConfigs) 
             validators.add((Validator)(config.createValidator()));
-        return new ValidatorExpression<T>(validators);
+        return new ValidatorExpression<T>(validators,noValidationExpressions);
     }
 }

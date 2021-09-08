@@ -53,6 +53,23 @@ class Profile2 extends ValidatorProfile {
     }
 }
 
+class Profile3 extends ValidatorProfile {
+    Profile3() {
+        createValidator(User.class)
+            .forNoValidation(data -> data.pseudo.equals("sudo"))
+            .forValue(
+                data -> data.password,
+                value -> { 
+                    value
+                        .forValidation(
+                            o -> o.length() >= 8,
+                            (o) -> new PasswordMinimumLengthException(o,8)
+                        );
+                }      
+            );
+    }
+}
+
 public class TestCase1 {
     @Test                                              
     @DisplayName("Test 1")   
@@ -72,6 +89,15 @@ public class TestCase1 {
             config.addProfile(new Profile2());
         });
         validatorManager.validate(new User("Fefeto","skipValueValidationPlease"));
+    }
+
+    @Test                                               
+    @DisplayName("Test 3")   
+    void test3() throws Exception {
+        ValidatorManager validatorManager = new ValidatorManager(config -> {
+            config.addProfile(new Profile3());
+        });
+        validatorManager.validate(new User("sudo","orion"));
     }
 }
 
