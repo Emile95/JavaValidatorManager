@@ -28,6 +28,9 @@ public class ValidatorManager {
      * @param data object to validate
     */
     public <T> void validate(T data) throws Exception {
-        validators.get(data.getClass()).validate(data);
+        Class<?> c = data.getClass();
+        if(!validators.containsKey(c))
+            throw new NotMappedTypeException(c);
+        validators.get(c).validate(data);
     }
 }

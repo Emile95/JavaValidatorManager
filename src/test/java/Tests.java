@@ -4,37 +4,7 @@ import org.junit.jupiter.api.Test;
 import validatorManager.ValidatorManager;
 import validatorManager.ValidatorProfile;
 
-class User {
-    String pseudo;
-    String password;
-
-    User(String pseudo, String password) {
-        this.pseudo = pseudo;
-        this.password = password;
-    }
-}
-
-class PasswordMinimumLengthException extends Exception {
-    PasswordMinimumLengthException(String password, int minimum) {
-        super("Minimum " + Integer.toString(minimum) + " characters : you provide " + password.length() + " characters");
-    }
-}
-
-class Profile extends ValidatorProfile {
-    Profile() {
-        createValidator(User.class)
-            .forValue(
-                data -> data.password,
-                value -> { 
-                    value
-                        .forValidation(
-                            o -> o.length() >= 8,
-                            (o) -> new PasswordMinimumLengthException(o,8)
-                        );
-                }      
-            );
-    }
-}
+import validatorManager.exception.*;
 
 class ProfileSkipValueValidation extends ValidatorProfile {
     ProfileSkipValueValidation() {
@@ -70,19 +40,8 @@ class ProfileSkipObjectValidation extends ValidatorProfile {
     }
 }
 
-public class TestCase1 {
-    @Test                                              
-    @DisplayName("Catch Validation Exception")   
-    void catchValidationException() throws Exception{
-        ValidatorManager validatorManager = new ValidatorManager(config -> {
-            config.addProfile(new Profile());
-        });
-        try {
-            validatorManager.validate(new User("Fefeto","orion"));
-        } catch(PasswordMinimumLengthException e) {} 
-    }
-
-    @Test                                               
+public class Tests {
+    @Test                                             
     @DisplayName("Skip value validation")   
     void SkipValueException() throws Exception {
         ValidatorManager validatorManager = new ValidatorManager(config -> {
@@ -91,7 +50,7 @@ public class TestCase1 {
         validatorManager.validate(new User("Fefeto","skipValueValidationPlease"));
     }
 
-    @Test                                               
+    @Test                                      
     @DisplayName("Skip object validation")   
     void SkipobjectException() throws Exception {
         ValidatorManager validatorManager = new ValidatorManager(config -> {
