@@ -17,8 +17,9 @@ public class ValueExpressionConfiguration<T,S> implements ValidatorConfiguration
     }
 
     /**
-     * Add a mail expression in you MailManager configuration
-     * @param c Class of your mail expression
+     * Add validation for your value
+     * @param validationExpression expression who return boolean with the value as parameter
+     * @param exceptionExpression expression who create the exception if the validation expression is false
     */
     public <E extends Exception> ValueExpressionConfiguration<T,S> forValidation(Function<S,Boolean> validationExpression, Function<S,E> exceptionExpression) {
         validators.add(new ValidationExpression<S,E>(validationExpression, exceptionExpression));
