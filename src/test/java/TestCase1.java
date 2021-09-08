@@ -4,30 +4,49 @@ import org.junit.jupiter.api.Test;
 import validatorManager.ValidatorManager;
 import validatorManager.ValidatorProfile;
 
-class Data {
-    String name;
+class User {
+    String pseudo;
     String password;
 
-    Data(String name, String password) {
-        this.name = name;
+    User(String pseudo, String password) {
+        this.pseudo = pseudo;
         this.password = password;
+    }
+}
+
+class PasswordMinimumLengthException extends Exception {
+    PasswordMinimumLengthException(String password, int minimum) {
+        super("Minimum " + Integer.toString(minimum) + " characters : you provide " + password.length() + " characters");
     }
 }
 
 class Profile extends ValidatorProfile {
     Profile() {
-        createValidator(Data.class)
+        createValidator(User.class)
             .forValue(
-                data -> data.name,
+                data -> data.password,
                 value -> { 
                     value
                         .forValidation(
-                            o -> !o.equals("hohoho"),
-                            (o) -> new Exception("Not Hohoh")
-                        )
+                            o -> o.length() >= 8,
+                            (o) -> new PasswordMinimumLengthException(o,8)
+                        );
+                }      
+            );
+    }
+}
+
+class Profile2 extends ValidatorProfile {
+    Profile2() {
+        createValidator(User.class)
+            .forValue(
+                data -> data.password,
+                value -> { 
+                    value
+                        .forNoValidation(o -> !o.equals("skipValueValidationPlease"))
                         .forValidation(
-                            o -> !o.equals("hahaha"),
-                            (o) -> new Exception("Not hahaha")
+                            o -> o.length() >= 8,
+                            (o) -> new PasswordMinimumLengthException(o,8)
                         );
                 }      
             );
@@ -35,13 +54,24 @@ class Profile extends ValidatorProfile {
 }
 
 public class TestCase1 {
-    @Test                                               
+    @Test                                              
     @DisplayName("Test 1")   
-    void test1() throws Exception {
+    void test1() throws Exception{
         ValidatorManager validatorManager = new ValidatorManager(config -> {
             config.addProfile(new Profile());
         });
-        validatorManager.validate(new Data("dfsfsdfsdf","asdasdasd"));
+        try {
+            validatorManager.validate(new User("Fefeto","orion"));
+        } catch(PasswordMinimumLengthException e) {} 
+    }
+
+    @Test                                               
+    @DisplayName("Test 2")   
+    void test2() throws Exception {
+        ValidatorManager validatorManager = new ValidatorManager(config -> {
+            config.addProfile(new Profile2());
+        });
+        validatorManager.validate(new User("Fefeto","skipValueValidationPlease"));
     }
 }
 

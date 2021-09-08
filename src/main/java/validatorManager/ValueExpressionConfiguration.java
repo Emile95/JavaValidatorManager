@@ -10,10 +10,12 @@ public class ValueExpressionConfiguration<T,S> implements ValidatorConfiguration
     
     Function<T,S> valueGetterExpression;
     ArrayList<Validator> validators;
+    ArrayList<Function<S,Boolean>> noValidations;
 
     ValueExpressionConfiguration(Function<T,S> valueGetterExpression) {
         this.valueGetterExpression = valueGetterExpression;
         validators = new ArrayList<Validator>();
+        noValidations = new ArrayList<Function<S,Boolean>>();
     }
 
     /**
@@ -26,7 +28,16 @@ public class ValueExpressionConfiguration<T,S> implements ValidatorConfiguration
         return this;
     }
 
+    /**
+     * Add skip validation for your value
+     * @param noValidationExpression expression who return boolean with the value as parameter
+    */
+    public ValueExpressionConfiguration<T,S> forNoValidation(Function<S,Boolean> noValidationExpression) {
+        noValidations.add(noValidationExpression);
+        return this;
+    }
+
     public Validator createValidator() {
-        return new ValueExpression<T,S>(valueGetterExpression, validators);
+        return new ValueExpression<T,S>(valueGetterExpression, validators, noValidations);
     }
 }
