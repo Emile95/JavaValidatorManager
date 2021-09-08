@@ -14,6 +14,7 @@ class ProfileDuplicate extends ValidatorProfile {
 class NotMapped {}
 
 public class CatchExceptionTest {
+
     @Test                                               
     @DisplayName("Catch Duplicate Type Exception")   
     void CatchDuplicateTypeException() throws Exception {
@@ -35,15 +36,5 @@ public class CatchExceptionTest {
             validatorManager.validate(new NotMapped());
         } catch(NotMappedTypeException e) {} 
     }
-
-    @Test                                              
-    @DisplayName("Catch Validation Exception")   
-    void catchValidationException() throws Exception{
-        ValidatorManager validatorManager = new ValidatorManager(config -> {
-            config.addProfile(new Profile());
-        });
-        try {
-            validatorManager.validate(new User("Fefeto","orion"));
-        } catch(PasswordMinimumLengthException e) {} 
-    }
+    
 }

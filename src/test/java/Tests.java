@@ -41,6 +41,18 @@ class ProfileSkipObjectValidation extends ValidatorProfile {
 }
 
 public class Tests {
+
+    @Test                                              
+    @DisplayName("Catch Validation Exception")   
+    void catchValidationException() throws Exception{
+        ValidatorManager validatorManager = new ValidatorManager(config -> {
+            config.addProfile(new Profile());
+        });
+        try {
+            validatorManager.validate(new User("Fefeto","orion"));
+        } catch(PasswordMinimumLengthException e) {} 
+    }
+    
     @Test                                             
     @DisplayName("Skip value validation")   
     void SkipValueException() throws Exception {
