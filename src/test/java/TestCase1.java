@@ -36,8 +36,8 @@ class Profile extends ValidatorProfile {
     }
 }
 
-class Profile2 extends ValidatorProfile {
-    Profile2() {
+class ProfileSkipValueValidation extends ValidatorProfile {
+    ProfileSkipValueValidation() {
         createValidator(User.class)
             .forValue(
                 data -> data.password,
@@ -53,8 +53,8 @@ class Profile2 extends ValidatorProfile {
     }
 }
 
-class Profile3 extends ValidatorProfile {
-    Profile3() {
+class ProfileSkipObjectValidation extends ValidatorProfile {
+    ProfileSkipObjectValidation() {
         createValidator(User.class)
             .forNoValidation(data -> data.pseudo.equals("sudo"))
             .forValue(
@@ -72,8 +72,8 @@ class Profile3 extends ValidatorProfile {
 
 public class TestCase1 {
     @Test                                              
-    @DisplayName("Test 1")   
-    void test1() throws Exception{
+    @DisplayName("Catch Validation Exception")   
+    void catchValidationException() throws Exception{
         ValidatorManager validatorManager = new ValidatorManager(config -> {
             config.addProfile(new Profile());
         });
@@ -83,19 +83,19 @@ public class TestCase1 {
     }
 
     @Test                                               
-    @DisplayName("Test 2")   
-    void test2() throws Exception {
+    @DisplayName("Skip value validation")   
+    void SkipValueException() throws Exception {
         ValidatorManager validatorManager = new ValidatorManager(config -> {
-            config.addProfile(new Profile2());
+            config.addProfile(new ProfileSkipValueValidation());
         });
         validatorManager.validate(new User("Fefeto","skipValueValidationPlease"));
     }
 
     @Test                                               
-    @DisplayName("Test 3")   
-    void test3() throws Exception {
+    @DisplayName("Skip object validation")   
+    void SkipobjectException() throws Exception {
         ValidatorManager validatorManager = new ValidatorManager(config -> {
-            config.addProfile(new Profile3());
+            config.addProfile(new ProfileSkipObjectValidation());
         });
         validatorManager.validate(new User("sudo","orion"));
     }
