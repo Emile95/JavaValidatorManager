@@ -9,6 +9,10 @@ public class ValidatorProfile {
         expressionConfigurations = new ArrayList<ValidatorExpressionConfiguration<?>>();
     }
 
+    /**
+     * Add a new validator
+     * @param c Class of your valiadator
+    */
     protected <T> ValidatorExpressionConfiguration<T> createValidator(Class<T> c) {
         ValidatorExpressionConfiguration<T> exp = new ValidatorExpressionConfiguration<T>(c);
         expressionConfigurations.add(exp);

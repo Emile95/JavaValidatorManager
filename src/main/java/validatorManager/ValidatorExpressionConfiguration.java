@@ -17,6 +17,11 @@ public class ValidatorExpressionConfiguration<T> implements ValidatorConfigurati
         valueConfigs = new ArrayList<ValidatorConfiguration>();
     }
 
+    /**
+     * Add a value to validate from your object
+     * @param valueGetterExpression expression to get the value from your object
+     * @param config consumer for configuring your value validation
+    */
     public <S> ValidatorExpressionConfiguration<T> forValue(Function<T,S> valueGetterExpression ,Consumer<ValueExpressionConfiguration<T,S>> config) {
         ValueExpressionConfiguration<T,S> valueConfig = new ValueExpressionConfiguration<T,S>(valueGetterExpression);
         config.accept(valueConfig);

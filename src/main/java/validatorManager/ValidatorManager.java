@@ -23,6 +23,10 @@ public class ValidatorManager {
         }
     }
 
+    /**
+     * Validate an object depending on his type
+     * @param data object to validate
+    */
     public <T> void validate(T data) throws Exception {
         validators.get(data.getClass()).validate(data);
     }
