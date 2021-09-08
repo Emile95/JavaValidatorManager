@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.function.Consumer;
 
 import validatorManager.exception.*;
-import validatorManager.interfaces.Validator;
 
 public class ValidatorManager {
 

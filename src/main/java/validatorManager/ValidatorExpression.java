@@ -3,9 +3,7 @@ package validatorManager;
 import java.util.ArrayList;
 import java.util.function.Function;
 
-import validatorManager.interfaces.Validator;
-
-class ValidatorExpression<T> implements Validator {
+class ValidatorExpression<T> extends Validator {
 
     ArrayList<Validator> validators;
     ArrayList<Function<T,Boolean>> noValidationExpressions;
@@ -15,7 +13,7 @@ class ValidatorExpression<T> implements Validator {
         this.noValidationExpressions = noValidationExpressions;
     }
 
-    public void validate(Object data) throws Exception {
+    void validate(Object data) throws Exception {
         for(Function<T,Boolean> noValidationExpression : noValidationExpressions)
             if(noValidationExpression.apply((T)data)) return;
         for(Validator validator : validators) 

@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import validatorManager.interfaces.ValidatorConfiguration;
-import validatorManager.interfaces.Validator;
-
-public class ValidatorExpressionConfiguration<T> implements ValidatorConfiguration {
+public class ValidatorExpressionConfiguration<T> extends ValidatorConfiguration {
 
     ArrayList<ValidatorConfiguration> valueConfigs;
     ArrayList<Function<T,Boolean>> noValidationExpressions;
@@ -40,7 +37,7 @@ public class ValidatorExpressionConfiguration<T> implements ValidatorConfigurati
         return this;
     }
 
-    public Validator createValidator() {
+    Validator createValidator() {
         ArrayList<Validator> validators = new ArrayList<Validator>();
         for(ValidatorConfiguration config : valueConfigs) 
             validators.add((Validator)(config.createValidator()));

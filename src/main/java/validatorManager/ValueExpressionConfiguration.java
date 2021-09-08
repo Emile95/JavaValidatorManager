@@ -3,10 +3,7 @@ package validatorManager;
 import java.util.ArrayList;
 import java.util.function.Function;
 
-import validatorManager.interfaces.ValidatorConfiguration;
-import validatorManager.interfaces.Validator;
-
-public class ValueExpressionConfiguration<T,S> implements ValidatorConfiguration {
+public class ValueExpressionConfiguration<T,S> extends ValidatorConfiguration {
     
     Function<T,S> valueGetterExpression;
     ArrayList<Validator> validators;
@@ -37,7 +34,7 @@ public class ValueExpressionConfiguration<T,S> implements ValidatorConfiguration
         return this;
     }
 
-    public Validator createValidator() {
+    Validator createValidator() {
         return new ValueExpression<T,S>(valueGetterExpression, validators, noValidations);
     }
 }
