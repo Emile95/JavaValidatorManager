@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import validatorManager.interfaces.ValidatorContextConsumer;
+
 public class ValidatorExpressionConfiguration<T> extends ValidatorConfiguration {
 
     ArrayList<ValidatorConfiguration> valueConfigs;
@@ -21,7 +23,7 @@ public class ValidatorExpressionConfiguration<T> extends ValidatorConfiguration 
      * @param valueGetterExpression expression to get the value from your object
      * @param config consumer for configuring your value validation
     */
-    public <S> ValidatorExpressionConfiguration<T> forValue(Function<T,S> valueGetterExpression ,Consumer<ValueExpressionConfiguration<T,S>> config) {
+    public <S> ValidatorExpressionConfiguration<T> forValue(ValidatorContextConsumer<T,S> valueGetterExpression ,Consumer<ValueExpressionConfiguration<T,S>> config) {
         ValueExpressionConfiguration<T,S> valueConfig = new ValueExpressionConfiguration<T,S>(valueGetterExpression);
         config.accept(valueConfig);
         valueConfigs.add(valueConfig);

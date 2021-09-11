@@ -2,19 +2,21 @@ package validatorManager;
 
 import java.util.function.Function;
 
+import validatorManager.interfaces.ValidatorContextConsumer;
+
 class ValidationExpression<T,E extends Exception> extends Validator {
 
-    Function<T,Boolean> validationExpression;
-    Function<T,E> exceptionExpression;
+    ValidatorContextConsumer<T,Boolean> validationExpression;
+    ValidatorContextConsumer<T,E> exceptionExpression;
 
-    ValidationExpression(Function<T,Boolean> validationExpression, Function<T,E> exceptionExpression) {
+    ValidationExpression(ValidatorContextConsumer<T,Boolean> validationExpression, ValidatorContextConsumer<T,E> exceptionExpression) {
         this.validationExpression = validationExpression;
         this.exceptionExpression = exceptionExpression;
     }
 
-    void validate(Object data) throws Exception {
+    void validate(Object data, ValidatorContext context) throws Exception {
         T t = (T)data;
-        if(!validationExpression.apply(t))
-            throw exceptionExpression.apply(t);
+        if(!validationExpression.apply(t,context))
+            throw exceptionExpression.apply(t,context);
     }
 }

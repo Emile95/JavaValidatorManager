@@ -16,8 +16,10 @@ public class UseObjectTest {
 
     @Test                                              
     @DisplayName("Catch Excpected Validation Exception")   
-    void catchValidationException() throws Exception{
+    void catchValidationException() throws Exception {
         try { validatorManager.validate(new User("12345","1234567")); } 
+        catch(ValidationException e) {} 
+        try { validatorManager.validate(new User("12345","1234567891233333333333333333333333333333333333333")); } 
         catch(ValidationException e) {} 
         try { validatorManager.validate(new User("1234","12345678")); } 
         catch(ValidationException e) {} 

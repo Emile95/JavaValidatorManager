@@ -1,1 +1,5 @@
-class ValidationException extends Exception {}
+class ValidationException extends Exception {
+    public ValidationException(String message) {
+        super(message);
+    }
+}

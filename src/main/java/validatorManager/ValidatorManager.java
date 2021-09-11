@@ -30,6 +30,6 @@ public class ValidatorManager {
         Class<?> c = data.getClass();
         if(!validators.containsKey(c))
             throw new NotMappedTypeException(c);
-        validators.get(c).validate(data);
+        validators.get(c).validate(data, new ValidatorContext());
     }
 }

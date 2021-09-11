@@ -13,10 +13,10 @@ class ValidatorExpression<T> extends Validator {
         this.noValidationExpressions = noValidationExpressions;
     }
 
-    void validate(Object data) throws Exception {
+    void validate(Object data, ValidatorContext context) throws Exception {
         for(Function<T,Boolean> noValidationExpression : noValidationExpressions)
             if(noValidationExpression.apply((T)data)) return;
-        for(Validator validator : validators) 
-            validator.validate(data);
+        for(Validator validator : validators)  
+            validator.validate(data, context);
     }
 }
