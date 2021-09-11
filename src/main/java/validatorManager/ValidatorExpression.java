@@ -43,6 +43,6 @@ class ValidatorExpression<T> extends Validator {
     private void checkContextValueAnnotation(Field field, Object obj, ValidatorContext context) {
         if(!field.isAnnotationPresent(ContextValue.class)) return;
         ContextValue contextValue = field.getAnnotation(ContextValue.class);
-        context.addValue(contextValue == null ? field.getName() : contextValue.key(), obj);
+        context.addValue(contextValue.equals("") ? field.getName() : contextValue.key(), obj);
     }
 }
