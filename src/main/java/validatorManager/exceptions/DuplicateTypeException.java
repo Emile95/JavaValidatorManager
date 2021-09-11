@@ -1,4 +1,4 @@
-package validatorManager.exception;
+package validatorManager.exceptions;
 
 import java.lang.RuntimeException;
 

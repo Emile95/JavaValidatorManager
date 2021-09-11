@@ -56,6 +56,6 @@ public class ValidatorExpressionConfiguration<T> extends ValidatorConfiguration 
         ArrayList<Validator> validators = new ArrayList<Validator>();
         for(ValidatorConfiguration config : valueConfigs) 
             validators.add((Validator)(config.createValidator()));
-        return new ValidatorExpression<T>(contextExpression,validators,noValidationExpressions);
+        return new ValidatorExpression<T>(contextExpression,validators,noValidationExpressions,type);
     }
 }

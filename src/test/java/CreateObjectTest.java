@@ -1,8 +1,8 @@
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import validatorManager.exception.*;
 import validatorManager.*;
+import validatorManager.exceptions.*;
 
 public class CreateObjectTest {
 

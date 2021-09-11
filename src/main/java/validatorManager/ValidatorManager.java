@@ -3,7 +3,7 @@ package validatorManager;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
-import validatorManager.exception.*;
+import validatorManager.exceptions.*;
 
 public class ValidatorManager {
 
