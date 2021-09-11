@@ -3,7 +3,10 @@ import validatorManager.ValidatorProfile;
 class Profile extends ValidatorProfile {
     Profile() {
         createValidator(User.class)
-            .forNoValidation(o -> o.pseudo.equals("sudo"))
+            .forContext((data,context) -> {
+                context.addValue("totalLength", data.pseudo.length() + data.password.length());
+            })
+            .forNoValidation((data) -> data.pseudo.equals("sudo"))
             .forValue(
                 (data,context) -> {
                     context.addValue("passwordLength", data.password.length()) ;

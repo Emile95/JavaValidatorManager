@@ -1,13 +1,16 @@
 package validatorManager;
 
 import java.util.ArrayList;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import validatorManager.interfaces.TwoParamConsumer;
 import validatorManager.interfaces.ValidatorContextConsumer;
 
 public class ValidatorExpressionConfiguration<T> extends ValidatorConfiguration {
 
+    TwoParamConsumer<T,ValidatorContext> contextExpression;
     ArrayList<ValidatorConfiguration> valueConfigs;
     ArrayList<Function<T,Boolean>> noValidationExpressions;
     Class<T> type;
@@ -16,6 +19,16 @@ public class ValidatorExpressionConfiguration<T> extends ValidatorConfiguration 
         this.type = type;
         valueConfigs = new ArrayList<ValidatorConfiguration>();
         noValidationExpressions = new ArrayList<Function<T,Boolean>>();
+    }
+
+    /**
+     * Add a value to validate from your object
+     * @param valueGetterExpression expression to get the value from your object
+     * @param config consumer for configuring your value validation
+    */
+    public <S> ValidatorExpressionConfiguration<T> forContext(TwoParamConsumer<T,ValidatorContext> contextExpression) {
+        this.contextExpression = contextExpression;
+        return this;
     }
 
     /**
@@ -43,6 +56,6 @@ public class ValidatorExpressionConfiguration<T> extends ValidatorConfiguration 
         ArrayList<Validator> validators = new ArrayList<Validator>();
         for(ValidatorConfiguration config : valueConfigs) 
             validators.add((Validator)(config.createValidator()));
-        return new ValidatorExpression<T>(validators,noValidationExpressions);
+        return new ValidatorExpression<T>(contextExpression,validators,noValidationExpressions);
     }
 }
