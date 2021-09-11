@@ -1,19 +1,10 @@
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import validatorManager.ValidatorManager;
-import validatorManager.ValidatorProfile;
-
 import validatorManager.exception.*;
+import validatorManager.*;
 
-class ProfileDuplicate extends ValidatorProfile {
-    ProfileDuplicate() {
-        createValidator(User.class);
-    }
-}
-class NotMapped {}
-
-public class CatchExceptionTest {
+public class CreateObjectTest {
 
     @Test                                               
     @DisplayName("Catch Duplicate Type Exception")   
@@ -21,7 +12,7 @@ public class CatchExceptionTest {
         try {
             ValidatorManager validatorManager = new ValidatorManager(config -> {
                 config.addProfile(new Profile());
-                config.addProfile(new ProfileDuplicate());
+                config.addProfile(new Profile());
             });
         } catch(DuplicateTypeException e) {} 
     }
@@ -33,8 +24,8 @@ public class CatchExceptionTest {
             ValidatorManager validatorManager = new ValidatorManager(config -> {
                 config.addProfile(new Profile());
             });
-            validatorManager.validate(new NotMapped());
+            validatorManager.validate(new Integer(5));
         } catch(NotMappedTypeException e) {} 
     }
-    
+
 }
