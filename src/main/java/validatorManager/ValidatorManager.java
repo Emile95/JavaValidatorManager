@@ -26,10 +26,11 @@ public class ValidatorManager {
      * Validate an object depending on his type
      * @param data object to validate
     */
-    public <T> void validate(T data) throws Exception {
+    public <T> ValidationResult validate(T data) throws Exception {
         Class<?> c = data.getClass();
-        if(!validators.containsKey(c))
-            throw new NotMappedTypeException(c);
-        validators.get(c).validate(data, new ValidatorContext());
+        if(!validators.containsKey(c)) throw new NotMappedTypeException(c);
+        ValidationResult result = new ValidationResult(new ValidatorContext());
+        validators.get(c).validate(data, result.context, result);
+        return result;
     }
 }

@@ -17,11 +17,12 @@ class ValueExpression<T,S> extends Validator {
         this.noValidations = noValidations;
     }
 
-    void validate(Object data, ValidatorContext context) throws Exception {
+    ValidationResult validate(Object data, ValidatorContext context, ValidationResult result) throws Exception {
         S value = valueGetterExpression.apply((T)data,context);
         for(ValidatorContextConsumer<S,Boolean> noValidation: noValidations) 
-            if(noValidation.apply(value,context)) return;
+            if(noValidation.apply(value,context)) return result;
         for(Validator validator : validators)
-           validator.validate(value, context);
+           validator.validate(value, context, result);
+        return result;
     }
 }

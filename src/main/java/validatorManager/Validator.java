@@ -1,5 +1,5 @@
 package validatorManager;
 
 public abstract class Validator {
-    abstract void validate(Object data, ValidatorContext context) throws Exception;
+    abstract ValidationResult validate(Object data, ValidatorContext context, ValidationResult result) throws Exception;
 }

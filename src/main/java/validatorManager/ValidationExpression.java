@@ -14,9 +14,10 @@ class ValidationExpression<T,E extends Exception> extends Validator {
         this.exceptionExpression = exceptionExpression;
     }
 
-    void validate(Object data, ValidatorContext context) throws Exception {
+    ValidationResult validate(Object data, ValidatorContext context, ValidationResult result) throws Exception {
         T t = (T)data;
         if(!validationExpression.apply(t,context))
             throw exceptionExpression.apply(t,context);
+        return result;
     }
 }

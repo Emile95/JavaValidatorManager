@@ -24,7 +24,13 @@ class ValidatorExpression<T> extends Validator {
         this.c = c;
     }
 
-    void validate(Object data, ValidatorContext context) throws Exception {
+    private void checkContextValueAnnotation(Field field, Object obj, ValidatorContext context) {
+        if(!field.isAnnotationPresent(ContextValue.class)) return;
+        ContextValue contextValue = field.getAnnotation(ContextValue.class);
+        context.addValue(contextValue.equals("") ? field.getName() : contextValue.key(), obj);
+    }
+
+    ValidationResult validate(Object data, ValidatorContext context, ValidationResult result) throws Exception {
         T t = (T)data;
 
         for(Field field : c.getDeclaredFields()) {
@@ -34,15 +40,11 @@ class ValidatorExpression<T> extends Validator {
         if(contextExpression != null) contextExpression.accept(t,context);
 
         for(Function<T,Boolean> noValidationExpression : noValidationExpressions)
-            if(noValidationExpression.apply(t)) return;
+            if(noValidationExpression.apply(t)) return result;
 
         for(Validator validator : validators)  
-            validator.validate(t, context);
-    }
+            validator.validate(t, context, result);
 
-    private void checkContextValueAnnotation(Field field, Object obj, ValidatorContext context) {
-        if(!field.isAnnotationPresent(ContextValue.class)) return;
-        ContextValue contextValue = field.getAnnotation(ContextValue.class);
-        context.addValue(contextValue.equals("") ? field.getName() : contextValue.key(), obj);
+        return result;
     }
 }
