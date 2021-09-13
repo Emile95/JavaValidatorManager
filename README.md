@@ -2,18 +2,12 @@
 
 Java library for configuration of data validation process.
 
-create your object and use it as a service for validate your data.
-use class who inherit of ValidatorProfile to create validator based on a specific type
+* Create Profile class who inherit ValidatorProfile implements your validation processes
+* Create your validatorManager with configuration object to set your profile who define the behavior
 
+# Example of type you want to configure his validation process
 
-Example of profile and type you want to validate
-
-
-------------
-
-
-import validatorManager.ValidatorProfile;
-
+```
 //Class you want his object to be validated
 class User {
     String pseudo;
@@ -26,9 +20,12 @@ class User {
         this.password = password;
     }
 }
+```
 
-------------
+# Example of class who inherit ValidatorProfile and configure ValidatorManager object
 
+```
+//Class who inherit ValidatorProfile to configure your ValidatorManager
 class Profile extends ValidatorProfile {
     Profile() {
         //Create a Validator for the User object
@@ -109,21 +106,17 @@ class Profile extends ValidatorProfile {
             );
     }
 }
+```
 
+# Example of create and configure your ValidatorManager by adding profile 
 
-------------
-
-
-Expample of use your profile in the creation of validatorManagerObject and validate a object
-
-------------------
-
+```
 validatorManager = new ValidatorManager(config -> {
   config.addProfile(new Profile());
 });
 
 validatorManager.validate(new User("12345","1234567"));
+```
 
-------------------
 
 
