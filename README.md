@@ -27,6 +27,7 @@ class User {
     }
 }
 
+------------
 
 class Profile extends ValidatorProfile {
     Profile() {
