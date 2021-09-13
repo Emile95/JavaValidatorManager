@@ -108,7 +108,7 @@ class Profile extends ValidatorProfile {
 }
 ```
 
-# Example of create and configure your ValidatorManager by adding profile 
+# Example of create and configure your ValidatorManager by adding profile, and use it to validate an object
 
 ```
 validatorManager = new ValidatorManager(config -> {
