@@ -1,6 +1,6 @@
 # JavaValidatorManager
 
-Java library for configuration of data validation process.
+Maven Java library Project for configuration of data validation process.
 
 * Create Profile class who inherit ValidatorProfile implements your validation processes
 * Create your validatorManager with configuration object to set your profile who define the behavior
