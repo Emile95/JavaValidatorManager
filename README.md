@@ -1,4 +1,4 @@
-# JavaValidatorManager
+# ValidatorManager
 
 Maven Java library Project for configuration of data validation process.
 
